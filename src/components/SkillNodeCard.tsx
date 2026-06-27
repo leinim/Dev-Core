@@ -2,6 +2,7 @@ import React from 'react';
 import { SkillNode } from '../types';
 import { motion } from 'motion/react';
 import { Lock, HelpCircle, Check, Award } from 'lucide-react';
+import { getPracticalExerciseForNode } from '../utils/exercises';
 
 interface SkillNodeCardProps {
   node: SkillNode;
@@ -137,6 +138,32 @@ export const SkillNodeCard: React.FC<SkillNodeCardProps> = ({
                   <span className="leading-tight select-text">{st.name}</span>
                 </label>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* Recommended Practical Exercise (Only shown when module is completed) */}
+        {isCompleted && (
+          <div 
+            className="mt-4 mb-1 p-3 bg-[#022c22] border-2 border-emerald-400/60 rounded-none space-y-1.5"
+            onClick={(e) => {
+              // Prevent parent card click from triggering uncompletion
+              e.stopPropagation();
+            }}
+          >
+            <div className="font-pixel text-[8px] text-yellow-300 uppercase tracking-wider flex items-center gap-1.5 border-b border-[#064e3b] pb-1.5 select-none">
+              <Award className="w-3.5 h-3.5 text-yellow-300 shrink-0 animate-pulse" />
+              <span>🏆 Ejercicio Práctico</span>
+            </div>
+            <div className="font-mono text-xs text-white font-bold leading-tight select-text">
+              {getPracticalExerciseForNode(node.id, node.name).title}
+            </div>
+            <p className="font-mono text-[11px] text-emerald-200/90 leading-normal select-text">
+              {getPracticalExerciseForNode(node.id, node.name).description}
+            </p>
+            <div className="font-mono text-[10px] text-yellow-200 bg-black/40 p-2 border border-emerald-900 mt-1 select-text">
+              <strong className="text-[9px] font-pixel block text-yellow-400 mb-0.5">EL DESAFÍO:</strong>
+              {getPracticalExerciseForNode(node.id, node.name).challenge}
             </div>
           </div>
         )}

@@ -45,10 +45,11 @@ export default function App() {
   
   // Feedback states
   const [isLevelUpOpen, setIsLevelUpOpen] = useState(false);
-  const [toastConfig, setToastConfig] = useState<{ isOpen: boolean; skillName: string; xpGained: number }>({
+  const [toastConfig, setToastConfig] = useState<{ isOpen: boolean; skillName: string; xpGained: number; skillId?: string }>({
     isOpen: false,
     skillName: '',
-    xpGained: 0
+    xpGained: 0,
+    skillId: undefined
   });
 
   // Selected Roadmap object
@@ -82,7 +83,8 @@ export default function App() {
         setToastConfig({
           isOpen: true,
           skillName: completedNode.name,
-          xpGained: completedNode.xp
+          xpGained: completedNode.xp,
+          skillId: completedNode.id
         });
       }
     } else {
@@ -113,7 +115,8 @@ export default function App() {
         setToastConfig({
           isOpen: true,
           skillName: completedNode.name,
-          xpGained: completedNode.xp
+          xpGained: completedNode.xp,
+          skillId: completedNode.id
         });
       }
     } else {
@@ -741,6 +744,7 @@ export default function App() {
         isOpen={toastConfig.isOpen}
         skillName={toastConfig.skillName}
         xpGained={toastConfig.xpGained}
+        skillId={toastConfig.skillId}
         onClose={() => setToastConfig(prev => ({ ...prev, isOpen: false }))}
       />
 

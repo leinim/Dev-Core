@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, X } from 'lucide-react';
+import { Sparkles, X, Award } from 'lucide-react';
+import { getPracticalExerciseForNode } from '../utils/exercises';
 
 interface MissionCompleteToastProps {
   isOpen: boolean;
   skillName: string;
   xpGained: number;
+  skillId?: string;
   onClose: () => void;
 }
 
@@ -13,15 +15,18 @@ export const MissionCompleteToast: React.FC<MissionCompleteToastProps> = ({
   isOpen,
   skillName,
   xpGained,
+  skillId,
   onClose
 }) => {
-  // Auto-close after 3.5 seconds
+  // Auto-close after 7 seconds if has skillId, else 3.5 seconds
   useEffect(() => {
     if (isOpen) {
-      const timer = setTimeout(onClose, 3500);
+      const timer = setTimeout(onClose, skillId ? 7500 : 3500);
       return () => clearTimeout(timer);
     }
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, skillId]);
+
+  const exercise = skillId ? getPracticalExerciseForNode(skillId, skillName) : null;
 
   return (
     <AnimatePresence>
@@ -49,6 +54,25 @@ export const MissionCompleteToast: React.FC<MissionCompleteToastProps> = ({
               <p className="font-mono text-[11px] text-slate-400 mt-0.5">
                 Has ganado <strong className="text-yellow-400">+{xpGained} XP</strong>
               </p>
+
+              {exercise && (
+                <div className="mt-3 pt-2.5 border-t border-slate-800 text-left">
+                  <div className="flex items-center gap-1 font-pixel text-[8px] text-yellow-400 uppercase tracking-wider mb-1">
+                    <Award className="w-3.5 h-3.5 text-yellow-400 animate-bounce" />
+                    <span>Práctica Recomendada</span>
+                  </div>
+                  <div className="font-mono text-[11px] font-bold text-slate-100 leading-tight">
+                    {exercise.title}
+                  </div>
+                  <div className="font-mono text-[10px] text-slate-300 mt-1 leading-snug">
+                    {exercise.description}
+                  </div>
+                  <div className="mt-2 p-2 bg-emerald-950/50 border border-emerald-800 text-[10px] font-mono text-emerald-300 leading-normal">
+                    <span className="font-pixel text-[7px] text-yellow-300 block mb-0.5">EL DESAFÍO:</span>
+                    {exercise.challenge}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Close Button */}
