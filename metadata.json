@@ -1,0 +1,6 @@
+{
+  "name": "Skill Tree RPG",
+  "description": "Un sistema de gestión de aprendizaje (Skill Tree RPG) minimalista con estética pixel-art. Gana XP, sube de nivel y desbloquea roadmaps tecnológicos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
